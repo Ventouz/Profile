@@ -148,6 +148,8 @@ alias c='clear'         # Clear the screen
 
 alias root='sudo -i'    # Root shell
 
+alias scan='sudo nmap -p 22 192.168.0.0/16'
+
 alias frite='ssh root@fritecraft.fr'
 alias hades='ssh root@hades.local -p 666'
 
