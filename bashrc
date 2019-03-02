@@ -188,3 +188,18 @@ function msh()
     fi
 }
 
+
+#-------------------------------------------------------------
+# Prompt
+#-------------------------------------------------------------
+
+whoami=$(whoami)
+
+# If id command returns zero, you have root access.
+if [ $(id -u) -eq 0 ]; then
+    # Root
+    PS1="${TITLEBAR}${LGrey} [${Red}root${Green} \w${LGrey}]${NC} "
+else
+    # Normal
+    PS1="${TITLEBAR}${LGrey} [${Yellow}${whoami}${Green} \w${LGrey}]${NC} "
+fi
