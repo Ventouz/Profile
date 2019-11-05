@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -d "~/.ssh/" ]; then
+if [ -d "~/.ssh/" ]; then
         ssh-keygen
 fi
 
