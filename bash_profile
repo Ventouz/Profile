@@ -153,9 +153,6 @@ alias make10mb='mkfile 10m ./10MB.dat'      # make10mb:     Creates a file of 10
 alias memHogsTop='top -l 1 -o rsize | head -20'
 alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
 
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias localip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
-alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
 alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
 alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
 alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
