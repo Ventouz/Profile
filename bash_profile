@@ -1,5 +1,5 @@
 #-------------------------------------------------------------
-# John custom .bash_profile
+# Custom .bash_profile
 #-------------------------------------------------------------
 
 # If not running interactively, don't do anything
@@ -13,10 +13,10 @@
 #set -o nounset
 #set -o xtrace
 
-ulimit -S -c 0      # No coredumps.
-set -o notify
-set -o noclobber
-set -o ignoreeof
+#ulimit -S -c 0      # No coredumps.
+#set -o notify
+#set -o noclobber
+#set -o ignoreeof
 
 # Enable options:
 shopt -s extglob        # Necessary.
@@ -55,10 +55,7 @@ export PATH=/opt/metasploit-framework/bin:$PATH #Msconsole
 export PATH=~/github/Scripts/:$PATH
 
 # Personal folders
-export web=/var/www/html
 export logs=/var/log
-export frite=/home/minecraft/fritecraft
-
 
 
 #-------------------------------------------------------------
@@ -67,7 +64,7 @@ export frite=/home/minecraft/fritecraft
 
 # Shell colors
 export TERM=xterm-color
-#alias grep='--color=auto' GREP_COLOR='1;32'
+export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1
 #export LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33'
 export LS_COLORS='GxFxCxDxBxegedabagaced'
@@ -119,10 +116,9 @@ alias lt='ls -AFgtr'	# Sort by date, most recent last.
 alias lc='ls -ltcr'		# Sort by/show change time,most recent last.
 alias lu='ls -ltur'		# Sort by/show access time,most recent last.
 alias lr='ls -RAl'		# Recursive ls show hidden files and info
-#alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
+alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
 
-alias sizes='du -m --max-depth 1 | sort -rn'   # List all directories and sort by size
-
+alias ls='lsd -l'
 
 alias cp='cp -v'		# Copy vebose mode
 alias cpr='cp -v -r'	# Copy a directory verbose
@@ -139,20 +135,13 @@ alias .4='cd ../../../../'                  # Go back 4 directory levels
 alias .5='cd ../../../../../'               # Go back 5 directory levels
 alias .6='cd ../../../../../../'            # Go back 6 directory levels
 
-alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
-
-
-alias k='kill $!'       # Kill lhe last process opened
-
 alias c='clear'         # Clear the screen
+
+alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 
 alias root='sudo -i'    # Root shell
 
-alias scan='sudo nmap -p 22 192.168.0.0/16'
-
 alias frite='ssh root@fritecraft.fr'
-alias hades='ssh root@hades.local -p 666'
-
 
 zipf () { zip -r "$1".zip "$1" ; }          # zipf:         To create a ZIP archive of a folder
 alias numFiles='echo $(ls -1 | wc -l)'      # numFiles:     Count of non-hidden files in current dir
@@ -163,9 +152,8 @@ alias make10mb='mkfile 10m ./10MB.dat'      # make10mb:     Creates a file of 10
 
 alias memHogsTop='top -l 1 -o rsize | head -20'
 alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
-alias topForever='top -l 9999999 -s 10 -o cpu'
-alias ttop="top -R -F -s 10 -o rsize"
 
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
 alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
@@ -181,10 +169,10 @@ alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rul
 alias apacheRestart='service apache2 restart'           # apacheRestart:    Restart Apache
 alias editHosts='sudo nano /etc/hosts'                  # editHosts:        Edit /etc/hosts file
 
-alias weather="curl -s 'http://rss.accuweather.com/rss/liveweather_rss.asp?metric=1&locCode=en|us|brooklyn-ny|11215' | sed -n '/Currently:/ s/.*: \(.*\): \([0-9]*\)\([CF]\).*/\2°\3, \1/p'"
-
 alias reload="source ~/.bash_profile"
 
+alias ping='~/.prettyping'
+alias preview="fzf --preview 'bat --color \"always\" {}'"
 
 #-------------------------------------------------------------
 # Functions
@@ -281,7 +269,7 @@ function msh()
     if [ "$1" ]; then
         if [ ! -f "$1.sh" ]; then
             printf "${Green}Creating ${NC}$1\n"
-            echo "#!/bin/bash" > $1
+            echo "#!/usr/local/bin/bash" > $1
             echo "# " >> $1
             chmod +x $1
             nano $1
@@ -334,6 +322,52 @@ ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name sta
 ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
 
 
+# get current status of git repo
+function parse_git_branch() {
+        BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+        if [ ! "${BRANCH}" == "" ]
+        then                
+				STAT=`parse_git_dirty`
+                echo " [${BRANCH}${STAT}]"
+        else
+                echo ""
+        fi
+}
+
+function parse_git_dirty {
+	status=`git status 2>&1 | tee`
+	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
+	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
+	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
+	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
+	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
+	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+	bits=''
+	if [ "${renamed}" == "0" ]; then
+		bits=">${bits}"
+	fi
+	if [ "${ahead}" == "0" ]; then
+		bits="*${bits}"
+	fi
+	if [ "${newfile}" == "0" ]; then
+		bits="+${bits}"
+	fi
+	if [ "${untracked}" == "0" ]; then
+		bits="?${bits}"
+	fi
+	if [ "${deleted}" == "0" ]; then
+		bits="x${bits}"
+	fi
+	if [ "${dirty}" == "0" ]; then
+		bits="!${bits}"
+	fi
+	if [ ! "${bits}" == "" ]; then
+		echo " ${bits}"
+	else
+		echo ""
+	fi
+}
+
 
 #-------------------------------------------------------------
 # Greetings
@@ -344,7 +378,7 @@ echo -n -e "\033]6;;bg;black;brightness;100\a"
 TITLEBAR='\[\033]0;[\u] - [${SHELL} - \V]\007\]'
 
 # Powered by the cow
-#printf "$Green$(cowsay -f eyes '0ero1ne')${NC} \n\n\a"
+#printf "$Green$(cowsay -f eyes 'John')${NC} \n\n\a"
 
 # Play shell intro
 #intro="/Users/zero-one/Music/shell/hello_friend_cut_reverb.flac"
@@ -371,10 +405,31 @@ TITLEBAR='\[\033]0;[\u] - [${SHELL} - \V]\007\]'
 #-------------------------------------------------------------
 
 # If id command returns zero, you have root access.
-if [ $(id -u) -eq 0 ]; then
-    # Root
-    PS1="${TITLEBAR}${LGrey} [${Red}root${Green} \w${LGrey}]${NC} "
-else
-    # Normal
-    PS1="${TITLEBAR}${LGrey} [${Yellow}John${Green} \w${LGrey}]${NC} "
-fi
+#if [ $(id -u) -eq 0 ]; then
+#    # Root
+#    PS1="${TITLEBAR}${LGrey} [${Red}root${Green} \w${LGrey}]${NC} "
+#else
+#    # Normal
+#    PS1="${TITLEBAR}${LGrey} [${Yellow}John${Green} \w${LGrey}]${NC} "
+#fi
+
+
+export PS1=" \u\[\e[m\]  \[\e[32m\] \W\[\e[m\]\[\e[33m\]\`parse_git_branch\`\[\e[m\]  "
+
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/John/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/John/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/John/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/John/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Setting PATH for Python 3.7
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
+export PATH
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
