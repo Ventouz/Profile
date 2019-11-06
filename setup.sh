@@ -3,7 +3,7 @@
 cp *.tff /usr/share/fonts/
 cp ./prettyping /usr/bin/prettyping
 
-apt install -y fd hyperfine htop ranger git
+apt install -y fd hyperfine htop ranger
 
 cd ~
 
