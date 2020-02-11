@@ -132,7 +132,7 @@ alias editHosts='sudo nano /etc/hosts'                  # editHosts:        Edit
 
 alias reload="source ~/.bash_profile"
 
-alias ping='~/.prettyping'
+# alias ping='~/.prettyping'
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 
 #-------------------------------------------------------------
