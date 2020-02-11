@@ -7,36 +7,6 @@
 
 
 #-------------------------------------------------------------
-# Some settings
-#-------------------------------------------------------------
-
-#set -o nounset
-#set -o xtrace
-
-#ulimit -S -c 0      # No coredumps.
-#set -o notify
-#set -o noclobber
-#set -o ignoreeof
-
-# Enable options:
-shopt -s extglob        # Necessary.
-shopt -s cdspell
-shopt -s cdable_vars
-shopt -s checkhash
-shopt -s checkwinsize
-shopt -s sourcepath
-shopt -s no_empty_cmd_completion
-shopt -s cmdhist
-shopt -s histappend histreedit histverify
-shopt -s nullglob
-
-# Disable options:
-shopt -u mailwarn
-unset MAILCHECK        # Don't want my shell to warn me of incoming mail.
-
-
-
-#-------------------------------------------------------------
 # Global Variables
 #-------------------------------------------------------------
 
@@ -51,11 +21,6 @@ export EDITOR="$VISUAL"
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=~/bin:$PATH
-export PATH=/opt/metasploit-framework/bin:$PATH #Msconsole
-export PATH=~/github/Scripts/:$PATH
-
-# Personal folders
-export logs=/var/log
 
 
 #-------------------------------------------------------------
@@ -64,7 +29,6 @@ export logs=/var/log
 
 # Shell colors
 export TERM=xterm-color
-export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1
 #export LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33'
 export LS_COLORS='GxFxCxDxBxegedabagaced'
