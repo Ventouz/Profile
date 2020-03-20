@@ -74,15 +74,17 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 # Custom aliases
 alias l='ls -AF'		# Sort by hidden files and show info
 alias ll='ls -AFg'		# Sort by hidden file
-
 alias lk='ls -AFgSr'	# Sort by size, biggest last.
 alias lt='ls -AFgtr'	# Sort by date, most recent last.
 alias lc='ls -ltcr'		# Sort by/show change time,most recent last.
 alias lu='ls -ltur'		# Sort by/show access time,most recent last.
 alias lr='ls -RAl'		# Recursive ls show hidden files and info
-alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
 
-alias ls='lsd -l'
+if ! [ -x "$(command -v lsd)" ]; then
+  break
+else
+  alias ls='lsd -l'
+fi
 
 alias cp='cp -v'		# Copy vebose mode
 alias cpr='cp -v -r'	# Copy a directory verbose
@@ -104,8 +106,6 @@ alias c='clear'         # Clear the screen
 alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
 
 alias root='sudo -i'    # Root shell
-
-alias frite='ssh root@fritecraft.fr'
 
 zipf () { zip -r "$1".zip "$1" ; }          # zipf:         To create a ZIP archive of a folder
 alias numFiles='echo $(ls -1 | wc -l)'      # numFiles:     Count of non-hidden files in current dir
@@ -165,7 +165,6 @@ function mydo()
 # Function to run upon exit of shell.
 function _exit()
 {
-    printf "$Green Goodbye ...${NC}\n\n"
     sleep 1
 }
 trap _exit EXIT
@@ -337,52 +336,18 @@ function parse_git_dirty {
 echo -n -e "\033]6;;bg;black;brightness;100\a"
 TITLEBAR='\[\033]0;[\u] - [${SHELL} - \V]\007\]'
 
-# Powered by the cow
-#printf "$Green$(cowsay -f eyes 'John')${NC} \n\n\a"
-
-# Play shell intro
-#intro="/Users/zero-one/Music/shell/hello_friend_cut_reverb.flac"
-#if [ -f $intro ]; then
-#    afplay $intro &
-#    disown $!
-#fi
-
-
-#printf "${Green} \n"
-
-# Stylish welcome message
-#for ((x=0; x<${#welcome}; x++)); do
-#	printf "${welcome:$x:1}"
-#    #printf ' %.0s' $(seq 0 $x)
-#	sleep 0.01
-#done
-#printf "${NC}\n"
-
-
 
 #-------------------------------------------------------------
 # Prompt
 #-------------------------------------------------------------
 
-# If id command returns zero, you have root access.
-#if [ $(id -u) -eq 0 ]; then
-#    # Root
-#    PS1="${TITLEBAR}${LGrey} [${Red}root${Green} \w${LGrey}]${NC} "
-#else
-#    # Normal
-#    PS1="${TITLEBAR}${LGrey} [${Yellow}John${Green} \w${LGrey}]${NC} "
-#fi
-
-
 export PS1="\[\e[33m\] \u\[\e[m\]\[\e[33m\]@\[\e[33m\]\h\[\e[m\]  \[\e[32m\] \W\[\e[m\]\[\e[33m\]\`parse_git_branch\`\[\e[m\]  "
-
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/John/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/John/Downloads/google-cloud-sdk/path.bash.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/John/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/John/Downloads/google-cloud-sdk/completion.bash.inc'; fi
-
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 

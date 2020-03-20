@@ -1,0 +1,10 @@
+#!/bin/bash
+echo
+
+if ! [ -x "$(command -v screenfetch)" ]; then
+  exit 1
+else
+  screenfetch
+fi
+
+echo
