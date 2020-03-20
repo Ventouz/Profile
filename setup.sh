@@ -8,6 +8,9 @@ wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/10-uname
 wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/20-screenfetch > /etc/update-motd.d/20-screenfetch
 wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/30-sysinfo > /etc/update-motd.d/30-sysinfo
 wget -qO- https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping > ~/.prettyping
-chmod +x ~/.prettyping
-chmod +x /etc/update-motd.d/*
+
+sleep 1
+chmod +x ~/.prettyping -v
+sleep 1
+chmod +x /etc/update-motd.d/* -v
 rm -f /etc/motd
