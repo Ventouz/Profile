@@ -80,9 +80,7 @@ alias lc='ls -ltcr'		# Sort by/show change time,most recent last.
 alias lu='ls -ltur'		# Sort by/show access time,most recent last.
 alias lr='ls -RAl'		# Recursive ls show hidden files and info
 
-if ! [ -x "$(command -v lsd)" ]; then
-  break
-else
+if [ -x "$(command -v lsd)" ]; then
   alias ls='lsd -l'
 fi
 
