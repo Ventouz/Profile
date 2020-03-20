@@ -134,6 +134,8 @@ alias reload="source ~/.bash_profile"
 
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 
+alias pping="~/.prettyping"
+
 #-------------------------------------------------------------
 # Functions
 #-------------------------------------------------------------

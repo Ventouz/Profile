@@ -1,23 +1,16 @@
 #!/bin/bash
 
-cp *.tff /usr/share/fonts/
-cp ./prettyping /usr/bin/prettyping
-
-apt install -y fd hyperfine htop ranger screenfetch
-
-cd ~
-
-## bat - a cat clone with wings
-wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb && dpkg -i bat_*.deb
-
-## lsd - ls on steroids
-wget https://github.com/Peltoche/lsd/releases/download/0.16.0/lsd-musl_0.16.0_amd64.deb && dpkg -i lsd*.deb
-
-## bmon - network interfaces monitoring
-git clone https://github.com/tgraf/bmon.git ~/bmon
-cd ~/bmon
-apt install -y build-essential make libconfuse-dev libnl-3-dev libnl-route-3-dev libncurses-dev pkg-config dh-autoreconf
-./autogen.sh
-./configure
-make
-make install
+apt update && apt upgrade -y
+apt install -y htop ranger screenfetch git curl apt-transport-https ca-certificates software-properties-common
+echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+locale-gen en_US.UTF-8
+wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/bash_profile > ~/.bash_profile
+wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/0-clear > /etc/update-motd.d/0-clear
+wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/10-uname > /etc/update-motd.d/10-uname
+wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/20-screenfetch > /etc/update-motd.d/20-screenfetch
+wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/30-sysinfo > /etc/update-motd.d/30-sysinfo
+wget -qO- https://github.com/denilsonsa/prettyping/blob/master/prettyping > ~/.prettyping
+chmod +x ~/.prettyping
+rm -f /etc/motd
