@@ -9,4 +9,5 @@ wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/20-scree
 wget -qO- https://raw.githubusercontent.com/Ventouz/Profile/master/motd/30-sysinfo > /etc/update-motd.d/30-sysinfo
 wget -qO- https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping > ~/.prettyping
 chmod +x ~/.prettyping
+chmod +x /etc/update-motd.d/*
 rm -f /etc/motd
