@@ -286,7 +286,7 @@ ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name end
 function parse_git_branch() {
         BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
         if [ ! "${BRANCH}" == "" ]
-        then                
+        then
 				STAT=`parse_git_dirty`
                 echo " [${BRANCH}${STAT}]"
         else
@@ -374,8 +374,7 @@ TITLEBAR='\[\033]0;[\u] - [${SHELL} - \V]\007\]'
 #fi
 
 
-export PS1=" \u\[\e[m\]  \[\e[32m\] \W\[\e[m\]\[\e[33m\]\`parse_git_branch\`\[\e[m\]  "
-
+export PS1="\[\e[33m\] \u\[\e[m\]\[\e[33m\]@\[\e[33m\]\h\[\e[m\]  \[\e[32m\] \W\[\e[m\]\[\e[33m\]\`parse_git_branch\`\[\e[m\]  "
 
 
 # The next line updates PATH for the Google Cloud SDK.

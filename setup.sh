@@ -3,7 +3,7 @@
 cp *.tff /usr/share/fonts/
 cp ./prettyping /usr/bin/prettyping
 
-apt install -y fd hyperfine htop ranger
+apt install -y fd hyperfine htop ranger screenfetch
 
 cd ~
 
@@ -16,10 +16,8 @@ wget https://github.com/Peltoche/lsd/releases/download/0.16.0/lsd-musl_0.16.0_am
 ## bmon - network interfaces monitoring
 git clone https://github.com/tgraf/bmon.git ~/bmon
 cd ~/bmon
-apt-get install build-essential make libconfuse-dev libnl-3-dev libnl-route-3-dev libncurses-dev pkg-config dh-autoreconf
+apt install -y build-essential make libconfuse-dev libnl-3-dev libnl-route-3-dev libncurses-dev pkg-config dh-autoreconf
 ./autogen.sh
 ./configure
 make
 make install
-
-
